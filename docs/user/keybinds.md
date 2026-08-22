@@ -96,8 +96,10 @@ These take no argument.
 |--------|--------------|
 | `window-focus-left` / `window-focus-right` | Move focus to the adjacent window along the row. |
 | `window-focus-up` / `window-focus-down` | Move focus to the adjacent window along the column. |
+| `window-focus-down-or-workspace-next` / `window-focus-up-or-workspace-previous` | Move focus to the adjacent window along the column; if at the edge, switch to the adjacent workspace. |
 | `window-focus-next` | Cycle focus to the next mapped window on the active workspace. |
 | `window-move-to-workspace-next` / `window-move-to-workspace-previous` | Move the focused window to the adjacent workspace and follow it. These actions do not wrap around. |
+| `window-move-down-or-to-workspace-next` / `window-move-up-or-to-workspace-previous` | Move the focused window up or down within its column; if at the edge, move it to the adjacent workspace and follow it. |
 | `column-move-left` / `column-move-right` | Move the focused window's column left or right. |
 | `window-move-up` / `window-move-down` | Move the focused window up or down within its column. |
 | `window-consume-left` | Pull the focused window into the column to its left. |

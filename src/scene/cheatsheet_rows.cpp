@@ -270,6 +270,8 @@ namespace {
     case A::WindowFocusRight:
     case A::WindowFocusUp:
     case A::WindowFocusDown:
+    case A::WindowFocusUpOrWorkspacePrevious:
+    case A::WindowFocusDownOrWorkspaceNext:
     case A::WindowFocusNext:
     case A::WindowFocusId:
       return Group::Focus;
@@ -277,6 +279,8 @@ namespace {
     case A::ColumnMoveRight:
     case A::WindowMoveUp:
     case A::WindowMoveDown:
+    case A::WindowMoveUpOrToWorkspacePrevious:
+    case A::WindowMoveDownOrToWorkspaceNext:
     case A::WindowConsumeLeft:
     case A::WindowExpelRight:
     case A::WindowCycleWidth:

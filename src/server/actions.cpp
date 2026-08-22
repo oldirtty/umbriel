@@ -605,6 +605,30 @@ namespace umbriel {
       return true;
     }
 
+    // The Direction template parameter maps to two distinct domains that share the same mathematical convention:
+    // +1 for 'Down' (physical layout) and 'Next' (workspace index).
+    // -1 for 'Up' (physical layout) and 'Previous' (workspace index).
+    template <int Direction>
+    bool actionFocusWindowOrWorkspace(Server& server, const Keybind& bind, std::string* error) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (View* target = workspace->focusVertical(Direction)) {
+          server.focusView(target, FocusReason::Directional);
+          return true;
+        }
+      }
+      return actionWorkspaceAdjacent<Direction>(server, bind, error);
+    }
+
+    template <int Direction>
+    bool actionMoveWindowOrToWorkspace(Server& server, const Keybind& bind, std::string* error) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (workspace->moveFocusedVertical(Direction)) {
+          return true;
+        }
+      }
+      return actionWindowMoveToWorkspaceAdjacent<Direction>(server, bind, error);
+    }
+
     bool actionWorkspaceSetLayout(Server& server, const Keybind& bind, std::string* /*error*/) {
       Workspace* workspace = activeWorkspace(server);
       if (workspace == nullptr) {
@@ -869,10 +893,14 @@ namespace umbriel {
         &actionFocusAdjacent<1>,
         &actionFocusVertical<-1>,
         &actionFocusVertical<1>,
+        &actionFocusWindowOrWorkspace<-1>,
+        &actionFocusWindowOrWorkspace<1>,
         &actionMoveColumn<-1>,
         &actionMoveColumn<1>,
         &actionMoveVertical<-1>,
         &actionMoveVertical<1>,
+        &actionMoveWindowOrToWorkspace<-1>,
+        &actionMoveWindowOrToWorkspace<1>,
         &actionConsumeLeft,
         &actionExpelRight,
         &actionCycleWidth,
