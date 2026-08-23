@@ -272,6 +272,8 @@ namespace {
     case A::WindowFocusOrOutputRight:
     case A::WindowFocusUp:
     case A::WindowFocusDown:
+    case A::WindowFocusOrOutputUp:
+    case A::WindowFocusOrOutputDown:
     case A::WindowFocusNext:
     case A::WindowFocusId:
       return Group::Focus;
@@ -281,6 +283,8 @@ namespace {
     case A::WindowMoveOrOutputRight:
     case A::WindowMoveUp:
     case A::WindowMoveDown:
+    case A::WindowMoveOrOutputUp:
+    case A::WindowMoveOrOutputDown:
     case A::WindowConsumeLeft:
     case A::WindowExpelRight:
     case A::WindowCycleWidth:
