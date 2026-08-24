@@ -440,6 +440,31 @@ namespace umbriel {
       return true;
     }
 
+    template <int Direction>
+    bool actionFocusVerticalOrWorkspace(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (View* target = workspace->focusVertical(Direction)) {
+          server.focusView(target, FocusReason::Directional);
+        } else {
+          // No window in this direction within the current workspace.
+          // Switch to the adjacent workspace, matching Niri's behavior.
+          WorkspaceGroup* group = workspace->group();
+          if (group == nullptr) {
+            return true;
+          }
+          const size_t index = workspace->index();
+          if (Direction < 0 && index == 0) {
+            return true;
+          }
+          Workspace* targetWorkspace = group->workspaceAt(index + static_cast<size_t>(Direction));
+          if (targetWorkspace != nullptr && targetWorkspace != group->active()) {
+            group->select(targetWorkspace);
+          }
+        }
+      }
+      return true;
+    }
+
     template <int Direction> bool actionMoveColumn(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
       if (Workspace* workspace = activeWorkspace(server)) {
         workspace->moveFocusedColumn(Direction);
@@ -470,6 +495,31 @@ namespace umbriel {
     template <int Direction> bool actionMoveVertical(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
       if (Workspace* workspace = activeWorkspace(server)) {
         workspace->moveFocusedVertical(Direction);
+      }
+      return true;
+    }
+
+    template <int Direction>
+    bool actionMoveVerticalOrWorkspace(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (!workspace->moveFocusedVertical(Direction)) {
+          Workspace* source = activeWorkspace(server);
+          if (source == nullptr || source->group() == nullptr) {
+            return true;
+          }
+          WorkspaceGroup* group = source->group();
+          const size_t index = source->index();
+          if (Direction < 0 && index == 0) {
+            return true;
+          }
+          Workspace* target = group->workspaceAt(index + static_cast<size_t>(Direction));
+          if (target == nullptr || target == source) {
+            return true;
+          }
+          if (View* view = source->focusedView()) {
+            moveViewToWorkspace(server, *view, *target);
+          }
+        }
       }
       return true;
     }
@@ -949,6 +999,8 @@ namespace umbriel {
         &actionFocusVertical<1>,
         &actionFocusVerticalOrOutput<-1, WLR_DIRECTION_UP>,
         &actionFocusVerticalOrOutput<1, WLR_DIRECTION_DOWN>,
+        &actionFocusVerticalOrWorkspace<-1>,
+        &actionFocusVerticalOrWorkspace<1>,
         &actionMoveColumn<-1>,
         &actionMoveColumn<1>,
         &actionMoveHorizontalOrOutput<-1, WLR_DIRECTION_LEFT>,
@@ -957,6 +1009,8 @@ namespace umbriel {
         &actionMoveVertical<1>,
         &actionMoveVerticalOrOutput<-1, WLR_DIRECTION_UP>,
         &actionMoveVerticalOrOutput<1, WLR_DIRECTION_DOWN>,
+        &actionMoveVerticalOrWorkspace<-1>,
+        &actionMoveVerticalOrWorkspace<1>,
         &actionConsumeLeft,
         &actionExpelRight,
         &actionCycleWidth<1>,

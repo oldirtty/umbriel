@@ -43,6 +43,8 @@ namespace umbriel {
     WindowMoveDown,
     WindowMoveOrOutputUp,
     WindowMoveOrOutputDown,
+    WindowMoveOrWorkspaceUp,
+    WindowMoveOrWorkspaceDown,
     WindowConsumeLeft,
     WindowExpelRight,
     WindowCycleWidth,
