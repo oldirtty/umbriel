@@ -420,8 +420,6 @@ namespace umbriel {
       return actionOutputFocus<WlrDir>(server, bind, error);
     }
 
-<<<<<<< HEAD
-=======
     template <int Direction, wlr_direction WlrDir>
     bool actionFocusVerticalOrOutput(Server& server, const Keybind& bind, std::string* error) {
       if (Workspace* workspace = activeWorkspace(server)) {
@@ -433,7 +431,6 @@ namespace umbriel {
       return actionOutputFocus<WlrDir>(server, bind, error);
     }
 
->>>>>>> feat/window-focus-move-or-output
     template <int Direction> bool actionFocusVertical(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
       if (Workspace* workspace = activeWorkspace(server)) {
         if (View* target = workspace->focusVertical(Direction)) {
