@@ -436,9 +436,9 @@ namespace umbriel {
       return true;
     }
 
-    bool actionCycleWidth(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
+    template <int Direction> bool actionCycleWidth(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
       if (Workspace* workspace = activeWorkspace(server)) {
-        workspace->cycleFocusedWidth();
+        workspace->cycleFocusedWidth(Direction);
       }
       return true;
     }
@@ -903,7 +903,8 @@ namespace umbriel {
         &actionMoveWindowOrToWorkspace<1>,
         &actionConsumeLeft,
         &actionExpelRight,
-        &actionCycleWidth,
+        &actionCycleWidth<1>,
+        &actionCycleWidth<-1>,
         &actionSetWidth,
         &actionToggleMaximize,
         &actionToggleMaximizeToEdges,
