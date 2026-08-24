@@ -272,19 +272,19 @@ namespace {
     case A::WindowFocusOrOutputRight:
     case A::WindowFocusUp:
     case A::WindowFocusDown:
-    case A::WindowFocusUpOrWorkspacePrevious:
-    case A::WindowFocusDownOrWorkspaceNext:
+    case A::WindowFocusOrOutputUp:
+    case A::WindowFocusOrOutputDown:
     case A::WindowFocusNext:
     case A::WindowFocusId:
       return Group::Focus;
     case A::ColumnMoveLeft:
     case A::ColumnMoveRight:
-    case A::WindowMoveOrToOutputLeft:
-    case A::WindowMoveOrToOutputRight:
+    case A::WindowMoveOrOutputLeft:
+    case A::WindowMoveOrOutputRight:
     case A::WindowMoveUp:
     case A::WindowMoveDown:
-    case A::WindowMoveUpOrToWorkspacePrevious:
-    case A::WindowMoveDownOrToWorkspaceNext:
+    case A::WindowMoveOrOutputUp:
+    case A::WindowMoveOrOutputDown:
     case A::WindowConsumeLeft:
     case A::WindowExpelRight:
     case A::WindowCycleWidth:

@@ -97,13 +97,22 @@ These take no argument.
 | `window-focus-left` / `window-focus-right` | Move focus to the adjacent window along the row. |
 | `window-focus-or-output-left` / `window-focus-or-output-right` | Move focus to the adjacent window along the row; if already at the edge, focus the output in that direction instead. |
 | `window-focus-up` / `window-focus-down` | Move focus to the adjacent window along the column. |
+<<<<<<< HEAD
 | `window-focus-down-or-workspace-next` / `window-focus-up-or-workspace-previous` | Move focus to the adjacent window along the column; if at the edge, switch to the adjacent workspace. |
+=======
+| `window-focus-or-output-up` / `window-focus-or-output-down` | Move focus to the adjacent window along the column; if already at the edge, focus the output in that direction instead. |
+>>>>>>> feat/window-focus-move-or-output
 | `window-focus-next` | Cycle focus to the next mapped window on the active workspace. |
 | `window-move-to-workspace-next` / `window-move-to-workspace-previous` | Move the focused window to the adjacent workspace and follow it. These actions do not wrap around. |
 | `window-move-down-or-to-workspace-next` / `window-move-up-or-to-workspace-previous` | Move the focused window up or down within its column; if at the edge, move it to the adjacent workspace and follow it. |
 | `column-move-left` / `column-move-right` | Move the focused window's column left or right. |
+<<<<<<< HEAD
 | `window-move-or-to-output-left` / `window-move-or-to-output-right` | Move the focused window's column left or right; if already at the edge, move the column to the output in that direction instead. |
+=======
+| `window-move-or-output-left` / `window-move-or-output-right` | Move the focused window's column left or right; if already at the edge, move the column to the output in that direction instead. |
+>>>>>>> feat/window-focus-move-or-output
 | `window-move-up` / `window-move-down` | Move the focused window up or down within its column. |
+| `window-move-or-output-up` / `window-move-or-output-down` | Move the focused window up or down within its column; if already at the edge, move the column to the output in that direction instead. |
 | `window-consume-left` | Pull the focused window into the column to its left. |
 | `window-expel-right` | Pop the focused window out of its column into a new column to the right. |
 | `window-cycle-width` | Cycle the focused column through its preset widths. |

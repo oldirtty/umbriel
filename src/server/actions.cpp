@@ -405,11 +405,8 @@ namespace umbriel {
       return true;
     }
 
-    // Focuses the adjacent column; if there is none (already at the edge), falls
-    // through to focusing the output in the same direction. Overview keeps its
-    // own in-grid navigation and never falls through to an output.
     template <int Direction, wlr_direction WlrDir>
-    bool actionFocusOrOutput(Server& server, const Keybind& bind, std::string* error) {
+    bool actionFocusHorizontalOrOutput(Server& server, const Keybind& bind, std::string* error) {
       if (Overview* overview = server.overview(); overview != nullptr && overview->interactive()) {
         overview->focusAdjacent(Direction);
         return true;
@@ -423,6 +420,20 @@ namespace umbriel {
       return actionOutputFocus<WlrDir>(server, bind, error);
     }
 
+<<<<<<< HEAD
+=======
+    template <int Direction, wlr_direction WlrDir>
+    bool actionFocusVerticalOrOutput(Server& server, const Keybind& bind, std::string* error) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (View* target = workspace->focusVertical(Direction)) {
+          server.focusView(target, FocusReason::Directional);
+          return true;
+        }
+      }
+      return actionOutputFocus<WlrDir>(server, bind, error);
+    }
+
+>>>>>>> feat/window-focus-move-or-output
     template <int Direction> bool actionFocusVertical(Server& server, const Keybind& /*bind*/, std::string* /*error*/) {
       if (Workspace* workspace = activeWorkspace(server)) {
         if (View* target = workspace->focusVertical(Direction)) {
@@ -439,13 +450,20 @@ namespace umbriel {
       return true;
     }
 
-    // Moves the focused column past its neighbor; if there is no neighbor
-    // (already at the edge), falls through to moving the column to the output
-    // in the same direction.
     template <int Direction, wlr_direction WlrDir>
-    bool actionMoveOrToOutput(Server& server, const Keybind& bind, std::string* error) {
+    bool actionMoveHorizontalOrOutput(Server& server, const Keybind& bind, std::string* error) {
       if (Workspace* workspace = activeWorkspace(server)) {
         if (workspace->moveFocusedColumn(Direction)) {
+          return true;
+        }
+      }
+      return actionColumnMoveToOutput<WlrDir>(server, bind, error);
+    }
+
+    template <int Direction, wlr_direction WlrDir>
+    bool actionMoveVerticalOrOutput(Server& server, const Keybind& bind, std::string* error) {
+      if (Workspace* workspace = activeWorkspace(server)) {
+        if (workspace->moveFocusedVertical(Direction)) {
           return true;
         }
       }
@@ -928,20 +946,20 @@ namespace umbriel {
         &actionSessionQuit,
         &actionFocusAdjacent<-1>,
         &actionFocusAdjacent<1>,
-        &actionFocusOrOutput<-1, WLR_DIRECTION_LEFT>,
-        &actionFocusOrOutput<1, WLR_DIRECTION_RIGHT>,
+        &actionFocusHorizontalOrOutput<-1, WLR_DIRECTION_LEFT>,
+        &actionFocusHorizontalOrOutput<1, WLR_DIRECTION_RIGHT>,
         &actionFocusVertical<-1>,
         &actionFocusVertical<1>,
-        &actionFocusWindowOrWorkspace<-1>,
-        &actionFocusWindowOrWorkspace<1>,
+        &actionFocusVerticalOrOutput<-1, WLR_DIRECTION_UP>,
+        &actionFocusVerticalOrOutput<1, WLR_DIRECTION_DOWN>,
         &actionMoveColumn<-1>,
         &actionMoveColumn<1>,
-        &actionMoveOrToOutput<-1, WLR_DIRECTION_LEFT>,
-        &actionMoveOrToOutput<1, WLR_DIRECTION_RIGHT>,
+        &actionMoveHorizontalOrOutput<-1, WLR_DIRECTION_LEFT>,
+        &actionMoveHorizontalOrOutput<1, WLR_DIRECTION_RIGHT>,
         &actionMoveVertical<-1>,
         &actionMoveVertical<1>,
-        &actionMoveWindowOrToWorkspace<-1>,
-        &actionMoveWindowOrToWorkspace<1>,
+        &actionMoveVerticalOrOutput<-1, WLR_DIRECTION_UP>,
+        &actionMoveVerticalOrOutput<1, WLR_DIRECTION_DOWN>,
         &actionConsumeLeft,
         &actionExpelRight,
         &actionCycleWidth<1>,
